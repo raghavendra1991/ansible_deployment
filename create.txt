@@ -38,5 +38,177 @@ step-V: create hosts file and ansible.cfg
 step-VI: ansible connection checking
 ansible-playbook all -m ping
 
-step-VI: 
- 
+ansible commands:
+Ansible vault module
+
+ansible-vault encrypt and decrypt password
+sudo ansible-vault create duvva.txt
+sudo ansible-vault edit duvva.txt
+
+decrypt password ansible-vault
+sudo ansible-vault decrypt duvva.txt
+sudo ansible-vault encrypt main.yaml
+sudo ansible-playbook main.yaml --private-key=duvva.pem --skip-tag "uninstall" --ask-vault-pass
+that playbook run
+
+tag module
+
+--- #configuration setup
+- hosts: node
+  remote_user: ubuntu
+  gather_facts: yes
+  sudo: yes
+  tasks:
+  - name: Installing package
+    apt:
+      name: stress
+      state: present
+    tags: install
+  - name: uninstall package
+    apt:
+      name: stress
+      state: absent
+    tags: uninstall
+  - name: installing git
+    apt:
+      name: git
+      state: present
+    tags: install
+  - name: installing git
+    apt:
+      name: git
+      state: present
+    tags: uninstall
+configuration management tool and deployment tool
+(infrasturucture as a code)
+slatstack 
+puppet
+chef
+ansible
+
+installation software and updgartion & os & deployment
+ansible is the most fast process
+developed python language and we writing playbooks yaml file
+push mehanisum 
+there is no need to  install os node 
+inbuild ssh 
+
+Ansible modules
+Ping 
+Sudo ansible node –m ping
+
+52.87.152.235 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+
+File
+- file:
+    path: /var/www/html/index.html
+    state: absent
+Ansible nodes –m ping –privets-key =yudy.pem file  –a ‘dest=/home/ubuntu/test.txt mode=600’    
+Ansible nodes –m ping –privets-key =yudy.pem file  –a ‘dest=/home/ubuntu/test.txt state=touch mode=600’    
+Ansible nodes –m ping –privets-key =yudy.pem file  –a ‘dest=/home/ubuntu/test.txt state= absent’
+
+Ansible nodes –m ping –privets-key =yudy.pem file  –a ‘dest=/home/ubuntu/raghav mode=600 state= directory’
+
+
+    
+Command
+‘Pwd’
+Ansible nodes –m ping –privets-key =yudy.pem command –a ‘pwd’    (present working directory)
+
+Shell
+Ansible nodes –m ping –privets-key =yudy.pem shell –a ‘cat sample.txt | grep –I sample’
+    
+Copy
+- name: deploy_code
+  copy:
+    src: /home/ubuntu/playbook/roles/apache/files/source_code/index.html
+    dest: /var/www/html/
+
+--hosts: node
+   tasks:
+   - name: create file with content example
+     copy:
+        dest: “/home/ubuntu/devops.txt”
+        content: 
+            raghavendra duvva
+            devops job
+User
+
+Git
+
+Template
+hello.html.j2
+<h1> this is duvva {{ name }} </h1>
+
+Docker
+
+Yum
+
+Apt
+- name: installing git
+    apt:
+      name: git
+      state: present
+
+create file through playbook
+---
+--hosts: node
+   tasks:
+   - name: ansible crerate file if it doesn’t exist example
+     file:
+        Path: “/home/ubuntu/devops.txt”
+        State: touch
+Syntax check :
+Ansible-playbook deploy.yaml –private-key=yudy.pem  --syntax-check
+---
+--hosts: node
+   tasks:
+   - name: ansible crerate file and attach permissions
+     file:
+       Path: “home/ubuntu/{{ item }}”
+       State: touch
+     with_items:
+	 - access.log
+	 - sysytem.log
+	 - properties.txt
+	 - conffile.conf
+	 
+	
+- name: uniinastall old docker versions
+  apt:
+   name: "{{ item }}"
+   state: absent
+  with_items:
+   - docker
+   - docker-engine
+   - docker.io
+- name: install packages to allow apt to use repository over https
+  apt:
+   name: "{{ item }}"
+   state: present
+  with_items:
+   - apt-transport-https
+   - ca-certificates
+   - curl
+   - software-properties-common
+- name: add docker's official CPG key
+  apt_key:
+   id:
+   url:
+   state:
+- name: get lsb release
+  shell: lsb_release -cs
+  register: lsb_release
+- name: setup stable repository
+  apt_repository:
+   repo:
+   state: present
+   update_cache: yes
+  ignoe_errors: true
+- name: install docker
+  apt:
+    name: docker-ce
+    state: present	
