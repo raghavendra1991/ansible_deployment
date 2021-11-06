@@ -1,0 +1,42 @@
+create user both agent and node and given sudo permissions and ssh connetion using password yes
+
+step-I: (agent server)
+sudo adduser agent
+password: duvva
+
+step-I: (node server)
+sudo adduser node
+password: duvva
+
+
+step-II: sudo permissions given boths server and nodes
+sudo nano /etc/sudoers
+
+node ALL=(ALL:ALL) ALL
+agent ALL=(ALL:ALL) ALL
+
+step-III: create ssh pub.key and private key
+
+go to the agent 
+
+ssh-keygen
+copy public.key node
+
+ssh-copy-id node@nodeipaddress
+checking ssh connection yes or no checking
+ssh node@ipaddress
+
+step-IV: install ansible server side
+sudo apt-get install ansible -y
+
+install python 
+sudo apt-get install python3-pip python3-dev python3-apt python3-boto -y
+
+step-V: create hosts file and ansible.cfg
+
+
+step-VI: ansible connection checking
+ansible-playbook all -m ping
+
+step-VI: 
+ 

@@ -1,0 +1,8 @@
+---
+- hosts: web-server
+  remote_user: node
+  connection: ssh
+  gather_facts: yes
+  become: true  
+  roles:
+  - apache

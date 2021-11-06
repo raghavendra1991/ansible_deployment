@@ -1,0 +1,2 @@
+[web-server]
+172.31.7.173 ansible_ssh_user=node "ansible_sudo_pass={{password}}"
